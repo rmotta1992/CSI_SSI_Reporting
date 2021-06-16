@@ -49,42 +49,7 @@ Sub InsertPageBreaks()
     Next I
 End Sub
 
-Sub Conditional_Format()
-
-Dim rg As Range
-Dim cond1 As FormatCondition, cond2 As FormatCondition, cond3 As FormatCondition
-Set rg = Range("H20", Range("H20").End(xlDown))
-
-'clear any existing conditional formatting
-rg.FormatConditions.Delete
-
-'define the rule for each conditional format
-Set cond1 = rg.FormatConditions.Add(xlCellValue, xlGreater, "=$a$1000")
-Set cond2 = rg.FormatConditions.Add(xlCellValue, xlLess, "=$a$1000")
-Set cond3 = rg.FormatConditions.Add(xlCellValue, xlEqual, "=$a$1000")
-
-'define the format applied for each conditional format
-
-With cond1
-.Interior.Color = vbWhite
-.Font.Color = vbWhite
-End With
-
-With cond2
-.Interior.Color = vbRed
-.Font.Color = vbWhite
-End With
-
-With cond3
-.Interior.Color = vbWhite
-.Font.Color = vbRed
-End With
-
-End Sub
-‘Define Range
-Dim MyRange As Range
-
-Sub Conditional_Formatting_Total()
+Sub Conditional_Formatting_Total_SSI()
 
     'Define Range'
     Dim MyRange As Range
@@ -99,7 +64,7 @@ Sub Conditional_Formatting_Total()
     MyRange.FormatConditions(1).Interior.Color = RGB(255, 0, 0)
 End Sub
 
-Sub Conditional_Formatting_Scores()
+Sub Conditional_Formatting_Scores_SSI()
 
     'Define Range'
     Dim MyRange As Range
@@ -111,9 +76,55 @@ Sub Conditional_Formatting_Scores()
     'Apply Conditional Formatting
     MyRange.FormatConditions.Add Type:=xlCellValue, Operator:=xlBetween, _
         Formula1:="=1", Formula2:="=7"
+    MyRange.FormatConditions(1).Interior.Color = RGB(255, 100, 71)
+End Sub
+Sub Conditional_Formatting_Total_CSI()
+
+    'Define Range'
+    Dim MyRange As Range
+    Set MyRange = Range("E20:E5000")
+
+    'Delete Existing Conditional Formatting from Range
+    MyRange.FormatConditions.Delete
+
+    'Apply Conditional Formatting
+    MyRange.FormatConditions.Add Type:=xlCellValue, Operator:=xlBetween, _
+        Formula1:="=100", Formula2:="=875"
     MyRange.FormatConditions(1).Interior.Color = RGB(255, 0, 0)
 End Sub
 
+Sub Conditional_Formatting_Scores_CSI()
+    'Define Range'
+    Dim MyRange As Range
+    Set MyRange = Range("H20:L5000")
 
+    'Delete Existing Conditional Formatting from Range
+    MyRange.FormatConditions.Delete
 
+    'Apply Conditional Formatting
+    MyRange.FormatConditions.Add Type:=xlCellValue, Operator:=xlBetween, _
+        Formula1:="=1", Formula2:="=7"
+    MyRange.FormatConditions(1).Interior.Color = RGB(255, 100, 100)
+End Sub
+Sub sbInsertingRows()
+    Rows("1:18").EntireRow.Insert
+End Sub
+Sub calculate_csi_total()
+  
+    ' Create variables for the Price, Tax, Quantity, and Total
+    Dim CSI As Double
+    
 
+    ' Retrieve and store the data values in each variable
+    CSI = Range("E20:E5000").Value
+    Tax = Range("C2").Value
+    Quantity = Range("D2").Value
+
+    ' Calculate the total by using each of the variables
+    Total = Price * (1 + Tax) * Quantity
+
+    ' Create a Message Box for the Total and insert into cell
+    MsgBox ("Your total is $" + Str(Total))
+    Range("E2").Value = Total
+End Sub
+    
